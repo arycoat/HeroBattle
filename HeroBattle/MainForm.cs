@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace ConsoleApp1
+namespace HeroBattle
 {
     class Form1 : Form
     {
@@ -20,11 +20,11 @@ namespace ConsoleApp1
 
         public Form1()
         {
-            this.Size = new Size(500, 500);
+            this.Size = new Size(517, 540);
             this.DoubleBuffered = true;
 
             timer.Tick += new EventHandler(Update);
-            timer.Interval = 1000;
+            timer.Interval = 100;
             timer.Enabled = true;
             timer.Start();
 
@@ -33,10 +33,12 @@ namespace ConsoleApp1
 
         private void Update(object sender, EventArgs e)
         {
-            location.X = velocity.X * (time3 / 1000);
-            location.Y = velocity.Y * (time3 / 1000);
+            location.X = time3 % 10;
+            location.Y = time3 / 10;
 
-            time3 += 200;// (DateTime.Now.Ticks - dt.Ticks)/10000;
+            time3++;
+            if (time3 >= 100)
+                time3 = 0;
 
             this.Invalidate();
         }
@@ -51,7 +53,7 @@ namespace ConsoleApp1
                         new Rectangle(new Point(i*50, j*50), new Size(50, 50)));
 
             e.Graphics.FillEllipse(Brushes.Tomato, 
-                new Rectangle((int)location.X, (int)location.Y, (int)height, (int)width));
+                new Rectangle((int)location.X * 50, (int)location.Y * 50, (int)height, (int)width));
         }
     }
 }
