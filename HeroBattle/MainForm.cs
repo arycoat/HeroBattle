@@ -7,16 +7,19 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
+using HeroBattle.PathFind;
+
 namespace HeroBattle
 {
     class Form1 : Form
     {
         DateTime datetime;
-        float time3 = 0, height = 20, width = 20;
-        PointF location = new PointF(0, 0);
-        PointF velocity = new PointF(50, 50);
+        float time3 = 0;
 
         Timer timer = new Timer();
+
+        Map map;
+        Hero hero;
 
         public Form1()
         {
@@ -29,12 +32,25 @@ namespace HeroBattle
             timer.Start();
 
             datetime = DateTime.Now;
+
+            //
+            map = new Map(10, 10);
+            map.Initialize();
+            map.SetBlock(3, 3);
+            map.SetBlock(3, 2);
+            map.SetBlock(3, 1);
+
+            hero = new Hero();
+            hero.startPos = new Point(0, 1);
+            hero.endPos = new Point(5, 2);
+            hero.position = hero.startPos;
         }
 
         private void Update(object sender, EventArgs e)
         {
-            location.X = time3 % 10;
-            location.Y = time3 / 10;
+            SearchParameters searchParameters = new SearchParameters(hero.startPos, hero.endPos, map);
+            PathFinder pathFinder = new PathFinder(searchParameters);
+            List<Point> path = pathFinder.FindPath();
 
             time3++;
             if (time3 >= 100)
@@ -47,13 +63,8 @@ namespace HeroBattle
         {
             base.OnPaint(e);
 
-            for (int i = 0; i < 10; i++)
-                for (int j = 0; j < 10; j++)
-                    e.Graphics.DrawRectangle(Pens.Black, 
-                        new Rectangle(new Point(i*50, j*50), new Size(50, 50)));
-
-            e.Graphics.FillEllipse(Brushes.Tomato, 
-                new Rectangle((int)location.X * 50, (int)location.Y * 50, (int)height, (int)width));
+            map.OnPaint(e);
+            hero.OnPaint(e);
         }
     }
 }
