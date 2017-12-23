@@ -16,8 +16,8 @@ namespace HeroBattle
         float height = 20, width = 20;
 
         private Point position { get; set; }
-
         public Point endPos { get; set; }
+
         private Map map;
         private List<Point> path;
         private HeroState state;
@@ -35,35 +35,45 @@ namespace HeroBattle
 
         public void Update(long delta)
         {
-            if (state.GetState() == State.None)
-            {
-                if (endPos != null)
-                {
-                    state.SetState(State.Move);
-                }
-            }
-
             if (state.GetState() == State.Move)
             {
                 Move();
+            }
+
+            if (state.GetState() == State.None)
+            {
+                if (endPos != new Point(-1, -1))
+                {
+                    FindPath();
+
+                    state.SetState(State.Move);
+                    state.SetTimeStamp(1000);
+                }
             }
         }
 
         private void Move()
         {
-            if (path.Count == 0)
+            state.SetTimeStamp(state.GetTimeStamp() - 150);
+
+            if (state.GetTimeStamp() > 0)
             {
-                SearchParameters searchParameters = new SearchParameters(position, endPos, map);
-                PathFinder pathFinder = new PathFinder(searchParameters);
-                path = pathFinder.FindPath();
-                if (path.Count > 0)
-                    path.RemoveAt(path.Count - 1);
+                // 아직 움직일 시간이 되지 않았음.
+                return;
             }
+
+            state.SetTimeStamp(state.GetTimeStamp() + 1000);
 
             if (path.Count > 0)
             {
                 position = path[0];
                 path.RemoveAt(0);
+            }
+
+            if (IsEndMove() == true)
+            {
+                state.SetState(State.None);
+                endPos = new Point(-1, -1);
             }
         }
 
@@ -86,6 +96,19 @@ namespace HeroBattle
         public bool IsEndMove()
         {
             return (path.Count == 0);
+        }
+
+        private void FindPath()
+        {
+            SearchParameters searchParameters = new SearchParameters(position, endPos, map);
+            PathFinder pathFinder = new PathFinder(searchParameters);
+            List<Point> foundPath = pathFinder.FindPath();
+
+            if (foundPath.Count > 0)
+            {
+                foundPath.RemoveAt(foundPath.Count - 1);
+                path = foundPath;
+            }
         }
     }
 }

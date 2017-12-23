@@ -32,5 +32,15 @@ namespace HeroBattle
         {
             this.state = state;
         }
+
+        internal long GetTimeStamp()
+        {
+            return this.timestamp;
+        }
+
+        internal void SetTimeStamp(long timestamp)
+        {
+            this.timestamp = timestamp;
+        }
     }
 }

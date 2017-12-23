@@ -27,7 +27,7 @@ namespace HeroBattle
             this.DoubleBuffered = true;
 
             timer.Tick += new EventHandler(Update);
-            timer.Interval = 1000;
+            timer.Interval = 150;
             timer.Enabled = true;
             timer.Start();
 
@@ -52,9 +52,7 @@ namespace HeroBattle
         private void Update(object sender, EventArgs e)
         {
             //
-            hero.Update(0);
-
-            if (hero.IsEndMove() == true)
+            if (hero.IsEndMove())
             {
                 Random random = new Random();
                 Point endPoint = new Point(random.Next(0, 9), random.Next(0, 9));
@@ -65,6 +63,8 @@ namespace HeroBattle
                     hero.endPos = enemy.GetPosition();
                 }
             }
+
+            hero.Update(0);
 
             this.Invalidate();
         }
