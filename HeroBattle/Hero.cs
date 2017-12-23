@@ -9,6 +9,8 @@ using System.Windows.Forms;
 
 namespace HeroBattle
 {
+    using State = HeroState.State;
+
     class Hero
     {
         float height = 20, width = 20;
@@ -18,10 +20,12 @@ namespace HeroBattle
         public Point endPos { get; set; }
         private Map map;
         private List<Point> path;
+        private HeroState state;
 
         public Hero()
         {
             path = new List<Point>();
+            state = new HeroState();
         }
 
         public void SetUp(Map map)
@@ -31,15 +35,31 @@ namespace HeroBattle
 
         public void Update(long delta)
         {
+            if (state.GetState() == State.None)
+            {
+                if (endPos != null)
+                {
+                    state.SetState(State.Move);
+                }
+            }
+
+            if (state.GetState() == State.Move)
+            {
+                Move();
+            }
+        }
+
+        private void Move()
+        {
             if (path.Count == 0)
             {
                 SearchParameters searchParameters = new SearchParameters(position, endPos, map);
                 PathFinder pathFinder = new PathFinder(searchParameters);
                 path = pathFinder.FindPath();
                 if (path.Count > 0)
-                    path.RemoveAt(path.Count-1);
+                    path.RemoveAt(path.Count - 1);
             }
-            
+
             if (path.Count > 0)
             {
                 position = path[0];
