@@ -14,12 +14,12 @@ namespace HeroBattle
     class Form1 : Form
     {
         DateTime datetime;
-        float time3 = 0;
 
         Timer timer = new Timer();
 
         Map map;
         Hero hero;
+        Hero enemy;
 
         public Form1()
         {
@@ -27,7 +27,7 @@ namespace HeroBattle
             this.DoubleBuffered = true;
 
             timer.Tick += new EventHandler(Update);
-            timer.Interval = 100;
+            timer.Interval = 1000;
             timer.Enabled = true;
             timer.Start();
 
@@ -36,25 +36,35 @@ namespace HeroBattle
             //
             map = new Map(10, 10);
             map.Initialize();
-            map.SetBlock(3, 3);
-            map.SetBlock(3, 2);
-            map.SetBlock(3, 1);
+            map.load();
 
             hero = new Hero();
-            hero.startPos = new Point(0, 1);
-            hero.endPos = new Point(5, 2);
-            hero.position = hero.startPos;
+            hero.SetUp(map);
+            hero.SetPosition(new Point(0, 0));
+
+            enemy = new Hero();
+            enemy.SetUp(map);
+            enemy.SetPosition(new Point(5, 2));
+
+            hero.endPos = enemy.GetPosition();
         }
 
         private void Update(object sender, EventArgs e)
         {
-            SearchParameters searchParameters = new SearchParameters(hero.startPos, hero.endPos, map);
-            PathFinder pathFinder = new PathFinder(searchParameters);
-            List<Point> path = pathFinder.FindPath();
+            //
+            hero.Update(0);
 
-            time3++;
-            if (time3 >= 100)
-                time3 = 0;
+            if (hero.IsEndMove() == true)
+            {
+                Random random = new Random();
+                Point endPoint = new Point(random.Next(0, 9), random.Next(0, 9));
+                if (map.IsWalkable(endPoint.X, endPoint.Y) == true)
+                {
+                    enemy.SetPosition(endPoint);
+
+                    hero.endPos = enemy.GetPosition();
+                }
+            }
 
             this.Invalidate();
         }
@@ -65,6 +75,11 @@ namespace HeroBattle
 
             map.OnPaint(e);
             hero.OnPaint(e);
+
+            //
+            Font myFont = new System.Drawing.Font("Helvetica", 11, FontStyle.Italic);
+            Brush myBrush = new SolidBrush(System.Drawing.Color.Red);
+            e.Graphics.DrawString("E", myFont, myBrush, hero.endPos.X   * 50 + 10, hero.endPos.Y   * 50 + 30);
         }
     }
 }

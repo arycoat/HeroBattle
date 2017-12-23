@@ -34,6 +34,13 @@ namespace HeroBattle
             }
         }
 
+        internal void load()
+        {
+            SetBlock(3, 3);
+            SetBlock(3, 2);
+            SetBlock(3, 1);
+        }
+
         public bool IsWalkable(int x, int y)
         {
             return (map[x][y] == 0);
