@@ -39,14 +39,14 @@ namespace HeroBattle
             map.load();
 
             hero = new Hero();
-            hero.SetUp(map);
+            hero.SetUp(map, Brushes.Blue);
             hero.SetPosition(new Point(0, 0));
 
             enemy = new Hero();
-            enemy.SetUp(map);
-            enemy.SetPosition(new Point(5, 2));
+            enemy.SetUp(map, Brushes.Red);
+            enemy.SetPosition(new Point(-1, -1));
 
-            hero.endPos = enemy.GetPosition();
+            //hero.endPos = enemy.GetPosition();
         }
 
         private void Update(object sender, EventArgs e)
@@ -75,11 +75,12 @@ namespace HeroBattle
 
             map.OnPaint(e);
             hero.OnPaint(e);
+            enemy.OnPaint(e);
 
             //
-            Font myFont = new System.Drawing.Font("Helvetica", 11, FontStyle.Italic);
-            Brush myBrush = new SolidBrush(System.Drawing.Color.Red);
-            e.Graphics.DrawString("E", myFont, myBrush, hero.endPos.X   * 50 + 10, hero.endPos.Y   * 50 + 30);
+            //Font myFont = new System.Drawing.Font("Helvetica", 11, FontStyle.Italic);
+            //Brush myBrush = new SolidBrush(System.Drawing.Color.Red);
+            //e.Graphics.DrawString("E", myFont, myBrush, hero.endPos.X   * 50 + 10, hero.endPos.Y   * 50 + 30);
         }
     }
 }

@@ -21,16 +21,19 @@ namespace HeroBattle
         private Map map;
         private List<Point> path;
         private HeroState state;
+        private Brush brush = Brushes.White;
 
         public Hero()
         {
             path = new List<Point>();
             state = new HeroState();
+            this.endPos = new Point(-1, -1);
         }
 
-        public void SetUp(Map map)
+        public void SetUp(Map map, Brush brush)
         {
             this.map = map;
+            this.brush = brush;
         }
 
         public void Update(long delta)
@@ -70,7 +73,7 @@ namespace HeroBattle
                 path.RemoveAt(0);
             }
 
-            if (IsEndMove() == true)
+            if (path.Count == 0)
             {
                 state.SetState(State.None);
                 endPos = new Point(-1, -1);
@@ -89,13 +92,13 @@ namespace HeroBattle
 
         public void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.FillEllipse(Brushes.Tomato,
-                new Rectangle((int)position.X * 50, (int)position.Y * 50, (int)height, (int)width));
+            e.Graphics.FillEllipse(this.brush,
+                new Rectangle((int)position.X * 50 + 15, (int)position.Y * 50 + 15, (int)height, (int)width));
         }
 
         public bool IsEndMove()
         {
-            return (path.Count == 0);
+            return (path.Count == 0 && endPos.Equals(new Point(-1, -1)));
         }
 
         private void FindPath()
