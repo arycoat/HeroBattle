@@ -44,7 +44,7 @@ namespace HeroBattle
                 {
                     enemy.SetPosition(endPoint);
 
-                    hero.endPos = enemy.GetPosition();
+                    hero.SetTarget(enemy);
                 }
             }
 

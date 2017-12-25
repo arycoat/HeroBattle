@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace HeroBattle
 {
@@ -16,42 +17,52 @@ namespace HeroBattle
         float height = 20, width = 20;
 
         private Point position { get; set; }
-        public Point endPos { get; set; }
 
         private Map map;
         private List<Point> path;
         private HeroState state;
         private Brush brush = Brushes.White;
 
+        private long hp, maxHp;
+
+        private Hero target { get; set; }
+        private Point endPos { get; set; }
+
         public Hero()
         {
             path = new List<Point>();
             state = new HeroState();
             this.endPos = new Point(-1, -1);
+            this.target = null;
         }
 
         public void SetUp(Map map, Brush brush)
         {
             this.map = map;
             this.brush = brush;
+
+            this.maxHp = 1000;
+            this.hp = this.maxHp;
         }
 
         public void Update(long delta)
         {
-            if (state.GetState() == State.Move)
-            {
-                Move();
-            }
-
             if (state.GetState() == State.None)
             {
-                if (endPos != new Point(-1, -1))
+                Hero target_ = FindTarget();
+
+                if (target_.GetPosition() != new Point(-1, -1))
                 {
-                    FindPath();
+                    FindPath(target_);
 
                     state.SetState(State.Move);
                     state.SetTimeStamp(1000);
                 }
+            }
+
+            if (state.GetState() == State.Move)
+            {
+                Move();
             }
         }
 
@@ -64,6 +75,8 @@ namespace HeroBattle
                 // 아직 움직일 시간이 되지 않았음.
                 return;
             }
+
+            Debug.Print("Move()");
 
             state.SetTimeStamp(state.GetTimeStamp() + 1000);
 
@@ -90,6 +103,11 @@ namespace HeroBattle
             return this.position;
         }
 
+        public void SetTarget(Hero target)
+        {
+            this.target = target;
+        }
+
         public void OnPaint(PaintEventArgs e)
         {
             e.Graphics.FillEllipse(this.brush,
@@ -98,20 +116,28 @@ namespace HeroBattle
 
         public bool IsEndMove()
         {
-            return (path.Count == 0 && endPos.Equals(new Point(-1, -1)));
+            return (state.GetState() == State.None && endPos.Equals(new Point(-1, -1)));
         }
 
-        private void FindPath()
+        private void FindPath(Hero target_)
         {
-            SearchParameters searchParameters = new SearchParameters(position, endPos, map);
+            Point targetPos = target_.GetPosition();
+
+            SearchParameters searchParameters = new SearchParameters(position, targetPos, map);
             PathFinder pathFinder = new PathFinder(searchParameters);
             List<Point> foundPath = pathFinder.FindPath();
 
             if (foundPath.Count > 0)
             {
+                endPos = targetPos;
                 foundPath.RemoveAt(foundPath.Count - 1);
                 path = foundPath;
             }
+        }
+
+        private Hero FindTarget()
+        {
+            return this.target;
         }
     }
 }
