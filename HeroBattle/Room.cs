@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace HeroBattle
 {
-    class Room
+    public class Room
     {
         private Map map;
         private Hero hero;

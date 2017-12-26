@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace HeroBattle
 {
-    using State = HeroState.State;
+    using State = CharacterState.State;
 
     class Hero
     {
@@ -20,7 +20,7 @@ namespace HeroBattle
 
         private Map map;
         private List<Point> path;
-        private HeroState state;
+        private CharacterState state;
         private Brush brush = Brushes.White;
 
         private long hp, maxHp;
@@ -31,7 +31,7 @@ namespace HeroBattle
         public Hero()
         {
             path = new List<Point>();
-            state = new HeroState();
+            state = new CharacterState();
             this.endPos = new Point(-1, -1);
             this.target = null;
         }
@@ -76,7 +76,7 @@ namespace HeroBattle
                 return;
             }
 
-            Debug.Print("Move()");
+            //Debug.Print("Move()");
 
             state.SetTimeStamp(state.GetTimeStamp() + 1000);
 
@@ -84,6 +84,7 @@ namespace HeroBattle
             {
                 position = path[0];
                 path.RemoveAt(0);
+                Debug.Print("Move() : hero : {0} => enemy : {1}", position, endPos);
             }
 
             if (path.Count == 0)

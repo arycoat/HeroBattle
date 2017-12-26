@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroBattle", "HeroBattle\HeroBattle.csproj", "{4300053F-42F0-4020-930B-D7F9E7955AB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroBattleTest", "HeroBattleTest\HeroBattleTest.csproj", "{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4300053F-42F0-4020-930B-D7F9E7955AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4300053F-42F0-4020-930B-D7F9E7955AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4300053F-42F0-4020-930B-D7F9E7955AB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
