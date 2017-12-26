@@ -74,6 +74,34 @@ namespace HeroBattle
             }
 
             Debug.Print("Attack()");
+
+            Hero target_ = this.target;
+
+            if (target_ == null)
+            {
+                return;
+            }
+
+            if (target_.IsAlive())
+            {
+                target_.SetDamage(100); // damage > 0
+                Debug.Print("Attack() : enemy hp = {0}", target_.GetHp());
+            }
+        }
+
+        public long GetHp()
+        {
+            return this.hp;
+        }
+
+        private void SetDamage(long damage)
+        {
+            hp = Math.Max(hp - damage, 0);
+        }
+
+        private bool IsAlive()
+        {
+            return (hp != 0);
         }
 
         private void Move()
