@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
+    <Compile Include="Character\MoveBase.cs" />
+    <Compile Include="Character\MoveNormal.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="Character\CharacterState.cs" />
     <Compile Include="MainForm.cs">

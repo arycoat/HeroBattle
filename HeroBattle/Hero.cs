@@ -19,20 +19,19 @@ namespace HeroBattle
         private Point position { get; set; }
 
         private Map map;
-        private List<Point> path;
-        private CharacterState state;
+        public CharacterState state { get; set; }
         private Brush brush = Brushes.White;
 
         private long hp, maxHp;
 
         private Hero target { get; set; }
-        private Point endPos { get; set; }
+        private MoveBase move;
+        
 
         public Hero()
         {
-            path = new List<Point>();
             state = new CharacterState();
-            this.endPos = new Point(-1, -1);
+            this.move = new MoveNormal(this);
             this.target = null;
         }
 
@@ -54,7 +53,7 @@ namespace HeroBattle
 
             if (state.GetState() == State.Move)
             {
-                Move();
+                move.Update();
             }
 
             if (state.GetState() == State.Attack)
@@ -89,6 +88,11 @@ namespace HeroBattle
             }
         }
 
+        internal Map GetMap()
+        {
+            return this.map;
+        }
+
         public long GetHp()
         {
             return this.hp;
@@ -102,35 +106,6 @@ namespace HeroBattle
         private bool IsAlive()
         {
             return (hp != 0);
-        }
-
-        private void Move()
-        {
-            state.SetTimeStamp(state.GetTimeStamp() - 150);
-
-            if (state.GetTimeStamp() > 0)
-            {
-                // 아직 움직일 시간이 되지 않았음.
-                return;
-            }
-
-            //Debug.Print("Move()");
-
-            state.SetTimeStamp(state.GetTimeStamp() + 1000);
-
-            if (path.Count > 0)
-            {
-                position = path[0];
-                path.RemoveAt(0);
-                Debug.Print("Move() : hero : {0} => enemy : {1}", position, endPos);
-            }
-
-            if (path.Count == 0)
-            {
-                state.SetTimeStamp(state.GetTimeStamp() + 1000);
-                state.SetState(State.Attack);
-                endPos = new Point(-1, -1);
-            }
         }
 
         internal void SetPosition(Point pos)
@@ -156,23 +131,7 @@ namespace HeroBattle
 
         public bool IsEndMove()
         {
-            return (state.GetState() == State.None && endPos.Equals(new Point(-1, -1)));
-        }
-
-        private void FindPath(Hero target_)
-        {
-            Point targetPos = target_.GetPosition();
-
-            SearchParameters searchParameters = new SearchParameters(position, targetPos, map);
-            PathFinder pathFinder = new PathFinder(searchParameters);
-            List<Point> foundPath = pathFinder.FindPath();
-
-            if (foundPath.Count > 0)
-            {
-                endPos = targetPos;
-                foundPath.RemoveAt(foundPath.Count - 1);
-                path = foundPath;
-            }
+            return move.IsEnd();
         }
 
         private void FindTarget()
@@ -181,7 +140,7 @@ namespace HeroBattle
 
             if (target_.GetPosition() != new Point(-1, -1))
             {
-                FindPath(target_);
+                move.FindPath(target_);
 
                 state.SetState(State.Move);
                 state.SetTimeStamp(1000);
