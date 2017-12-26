@@ -12,6 +12,7 @@ namespace HeroBattle
         {
             None,
             Move,
+            Attack,
         }
 
         private long timestamp;

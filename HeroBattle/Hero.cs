@@ -49,21 +49,31 @@ namespace HeroBattle
         {
             if (state.GetState() == State.None)
             {
-                Hero target_ = FindTarget();
-
-                if (target_.GetPosition() != new Point(-1, -1))
-                {
-                    FindPath(target_);
-
-                    state.SetState(State.Move);
-                    state.SetTimeStamp(1000);
-                }
+                FindTarget();
             }
 
             if (state.GetState() == State.Move)
             {
                 Move();
             }
+
+            if (state.GetState() == State.Attack)
+            {
+                Attack();
+            }
+        }
+
+        private void Attack()
+        {
+            state.SetTimeStamp(state.GetTimeStamp() - 150);
+
+            if (state.GetTimeStamp() > 0)
+            {
+                // 아직 움직일 시간이 되지 않았음.
+                return;
+            }
+
+            Debug.Print("Attack()");
         }
 
         private void Move()
@@ -89,7 +99,8 @@ namespace HeroBattle
 
             if (path.Count == 0)
             {
-                state.SetState(State.None);
+                state.SetTimeStamp(state.GetTimeStamp() + 1000);
+                state.SetState(State.Attack);
                 endPos = new Point(-1, -1);
             }
         }
@@ -136,9 +147,17 @@ namespace HeroBattle
             }
         }
 
-        private Hero FindTarget()
+        private void FindTarget()
         {
-            return this.target;
+            Hero target_ = this.target;
+
+            if (target_.GetPosition() != new Point(-1, -1))
+            {
+                FindPath(target_);
+
+                state.SetState(State.Move);
+                state.SetTimeStamp(1000);
+            }
         }
     }
 }
