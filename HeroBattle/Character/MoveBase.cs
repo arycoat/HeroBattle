@@ -23,7 +23,7 @@ namespace HeroBattle
             return true;
         }
 
-        public virtual void FindPath(Hero target_)
+        public virtual void FindPath(Character target_)
         {
 
         }

@@ -58,7 +58,7 @@ namespace HeroBattle
             return (hero.state.GetState() == State.None && endPos.Equals(new Point(-1, -1)));
         }
 
-        public override void FindPath(Hero target_)
+        public override void FindPath(Character target_)
         {
             Point targetPos = target_.GetPosition();
 

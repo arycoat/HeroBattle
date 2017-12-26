@@ -12,26 +12,17 @@ namespace HeroBattle
 {
     using State = CharacterState.State;
 
-    class Hero
+    class Hero : Character
     {
         float height = 20, width = 20;
 
-        private Point position { get; set; }
-
         private Map map;
-        public CharacterState state { get; set; }
         private Brush brush = Brushes.White;
-
-        private long hp, maxHp;
-
-        private Hero target { get; set; }
-        private MoveBase move;
-        
+        private Character target { get; set; }
 
         public Hero()
         {
-            state = new CharacterState();
-            this.move = new MoveNormal(this);
+            base.move = new MoveNormal(this);
             this.target = null;
         }
 
@@ -44,7 +35,7 @@ namespace HeroBattle
             this.hp = this.maxHp;
         }
 
-        public void Update(long delta)
+        public override void Update(long delta)
         {
             if (state.GetState() == State.None)
             {
@@ -74,7 +65,7 @@ namespace HeroBattle
 
             Debug.Print("Attack()");
 
-            Hero target_ = this.target;
+            Character target_ = this.target;
 
             if (target_ == null)
             {
@@ -91,31 +82,6 @@ namespace HeroBattle
         internal Map GetMap()
         {
             return this.map;
-        }
-
-        public long GetHp()
-        {
-            return this.hp;
-        }
-
-        private void SetDamage(long damage)
-        {
-            hp = Math.Max(hp - damage, 0);
-        }
-
-        private bool IsAlive()
-        {
-            return (hp != 0);
-        }
-
-        internal void SetPosition(Point pos)
-        {
-            this.position = pos;
-        }
-
-        public Point GetPosition()
-        {
-            return this.position;
         }
 
         public void SetTarget(Hero target)
@@ -136,7 +102,7 @@ namespace HeroBattle
 
         private void FindTarget()
         {
-            Hero target_ = this.target;
+            Character target_ = this.target;
 
             if (target_.GetPosition() != new Point(-1, -1))
             {
