@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Character\Character.cs" />
     <Compile Include="Hero.cs" />
-    <Compile Include="Character\HeroState.cs" />
+    <Compile Include="Character\CharacterState.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
