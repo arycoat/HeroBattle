@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace HeroBattle
 {
-    class MoveBase
+    public class MoveBase
     {
-        public MoveBase()
+        public enum MoveType
         {
+            None,
+            Normal,
+        }
 
+        public MoveType moveType { get; private set; }
+
+        public MoveBase(MoveType moveType)
+        {
+            this.moveType = moveType;
         }
 
         public virtual void Update()

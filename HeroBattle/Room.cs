@@ -25,18 +25,26 @@ namespace HeroBattle
             map.load();
 
             hero = new Hero();
-            hero.SetUp(map, Brushes.Blue);
-            hero.SetPosition(new Point(0, 0));
+            hero.SetUp(this);
+            hero.SetBrush(Brushes.Blue);
+            hero.SetMoveType(new MoveNormal(hero));
+            hero.SetPosition(new Point(-1, -1));
 
             enemy = new Hero();
-            enemy.SetUp(map, Brushes.Red);
+            enemy.SetUp(this);
+            enemy.SetBrush(Brushes.Red);
+            enemy.SetMoveType(new MoveNone(enemy));
             enemy.SetPosition(new Point(-1, -1));
+
+            //
+            hero.SetPosition(new Point(5, 1));
+            enemy.SetPosition(new Point(7, 5));
         }
 
         public void Update()
         {
             //
-            if (hero.IsEndMove())
+            if (enemy.IsAlive() == false)
             {
                 Random random = new Random();
                 Point endPoint = new Point(random.Next(0, 9), random.Next(0, 9));
@@ -49,6 +57,17 @@ namespace HeroBattle
             }
 
             hero.Update(0);
+            enemy.Update(0);
+        }
+
+        internal Map GetMap()
+        {
+            return this.map;
+        }
+
+        public Character SearchTarget()
+        {
+            return (Character)enemy;
         }
 
         public void OnPaint(PaintEventArgs e)

@@ -7,16 +7,22 @@ using System.Threading.Tasks;
 
 namespace HeroBattle
 {
-    abstract class Character
+    public abstract class Character
     {
         public CharacterState state { get; private set; }
         protected MoveBase move { get; set; }
         protected long hp, maxHp;
         protected Point position { get; set; }
+        protected Room room { get; set; } 
 
         public Character()
         {
             this.state = new CharacterState();
+        }
+
+        public virtual void SetUp(Room room)
+        {
+            this.room = room;
         }
 
         public abstract void Update(long delta);
@@ -38,12 +44,17 @@ namespace HeroBattle
 
         public bool IsAlive()
         {
-            return (hp != 0);
+            return (hp > 0);
         }
 
         public void SetDamage(long damage)
         {
             this.hp = Math.Max(this.hp - damage, 0);
+        }
+
+        internal Map GetMap()
+        {
+            return this.room.GetMap();
         }
     }
 }

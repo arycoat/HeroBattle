@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroBattle
 {
-    class CharacterState
+    public class CharacterState
     {
         public enum State
         {

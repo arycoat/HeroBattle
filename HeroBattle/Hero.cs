@@ -16,29 +16,38 @@ namespace HeroBattle
     {
         float height = 20, width = 20;
 
-        private Map map;
         private Brush brush = Brushes.White;
         private Character target { get; set; }
 
         public Hero()
         {
-            base.move = new MoveNormal(this);
             this.target = null;
         }
 
-        public void SetUp(Map map, Brush brush)
+        public override void SetUp(Room room)
         {
-            this.map = map;
-            this.brush = brush;
-
+            base.SetUp(room);
             this.maxHp = 1000;
             this.hp = this.maxHp;
+        }
+
+        public void SetBrush(Brush brush)
+        {
+            this.brush = brush;
+        }
+
+        public void SetMoveType(MoveBase move)
+        {
+            base.move = move;
         }
 
         public override void Update(long delta)
         {
             if (state.GetState() == State.None)
             {
+                if (move.moveType == MoveBase.MoveType.None)
+                    return;
+
                 FindTarget();
             }
 
@@ -79,12 +88,7 @@ namespace HeroBattle
             }
         }
 
-        internal Map GetMap()
-        {
-            return this.map;
-        }
-
-        public void SetTarget(Hero target)
+        public void SetTarget(Character target)
         {
             this.target = target;
         }
@@ -104,8 +108,12 @@ namespace HeroBattle
         {
             Character target_ = this.target;
 
-            if (target_.GetPosition() != new Point(-1, -1))
+            if (target_ == null)
+                target_ = room.SearchTarget();
+
+            if (target_ != null && target_.GetPosition() != new Point(-1, -1))
             {
+                SetTarget(target_);
                 move.FindPath(target_);
 
                 state.SetState(State.Move);

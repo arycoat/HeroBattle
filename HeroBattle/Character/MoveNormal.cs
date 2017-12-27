@@ -13,11 +13,12 @@ namespace HeroBattle
 
     class MoveNormal : MoveBase
     {
-        private Hero hero;
+        private Character hero;
         private List<Point> path;
         private Point endPos { get; set; }
 
-        public MoveNormal(Hero hero)
+        public MoveNormal(Character hero)
+            : base(MoveType.Normal)
         {
             path = new List<Point>();
             this.endPos = new Point(-1, -1);
