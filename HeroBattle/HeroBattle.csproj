@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Character\AttackBase.cs" />
+    <Compile Include="Character\AttackNearest.cs" />
+    <Compile Include="Character\AttackNone.cs" />
     <Compile Include="Character\Character.cs" />
     <Compile Include="Character\MoveBase.cs" />
     <Compile Include="Character\MoveNone.cs" />

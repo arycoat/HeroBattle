@@ -11,14 +11,13 @@ using System.Diagnostics;
 namespace HeroBattle
 {
     using State = CharacterState.State;
+    using MoveType = HeroBattle.MoveBase.MoveType;
 
     class Hero : Character
     {
-        private long target { get; set; }
-
         public Hero()
         {
-            this.target = 0;
+
         }
 
         public override void SetUp(Room room, long id, CharacterType characterType)
@@ -28,18 +27,10 @@ namespace HeroBattle
             this.hp = this.maxHp;
         }
 
-        public void SetMoveType(MoveBase move)
-        {
-            base.move = move;
-        }
-
         public override void Update(long delta)
         {
-            if (state.GetState() == State.None)
+            if (state.GetState() == State.None && move.moveType != MoveType.None)
             {
-                if (move.moveType == MoveBase.MoveType.None)
-                    return;
-
                 FindTarget();
             }
 
@@ -50,61 +41,13 @@ namespace HeroBattle
 
             if (state.GetState() == State.Attack)
             {
-                Attack();
+                attack.Update();
             }
-        }
-
-        private void Attack()
-        {
-            state.SetTimeStamp(state.GetTimeStamp() - 150);
-
-            if (state.GetTimeStamp() > 0)
-            {
-                // 아직 움직일 시간이 되지 않았음.
-                return;
-            }
-
-            Character target_ = room.FindCharacter(this.target);
-
-            if (target_ == null)
-            {
-                return;
-            }
-
-            double dist = room.DistanceTo(GetPosition(), target_.GetPosition());
-            Debug.WriteLine("{0} -> {1} = {2}", GetPosition(), target_.GetPosition(), dist);
-            if (dist > 1.5)
-            {
-                state.SetState(State.Move);
-                return;
-            }
-
-            if (target_.IsAlive())
-            {
-                target_.SetDamage(100); // damage > 0
-                Debug.Print("Attack() : id = {0} enemy hp = {1}", target_.Id, target_.GetHp());
-
-                if (target_.IsAlive() == false)
-                {
-                    SetTarget(0);
-                    state.SetState(State.None);
-                }
-            }
-        }
-
-        public void SetTarget(long targetId)
-        {
-            this.target = targetId;
-        }
-
-        public bool IsEndMove()
-        {
-            return move.IsEnd();
         }
 
         private void FindTarget()
         {
-            Character target_ = room.FindCharacter(this.target);
+            Character target_ = room.FindCharacter(GetTarget());
 
             if (target_ == null)
                 target_ = room.SearchTarget(this);

@@ -29,6 +29,7 @@ namespace HeroBattle
             Hero hero = new Hero();
             hero.SetUp(this, 1, CharacterType.Player);
             hero.SetMoveType(new MoveNormal(hero));
+            hero.SetAttackType(new AttackNearest(hero));
             hero.SetPosition(new Point(5, 1));
             characters.Add(hero);
 
