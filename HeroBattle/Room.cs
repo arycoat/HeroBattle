@@ -32,37 +32,28 @@ namespace HeroBattle
             hero.SetMoveType(new MoveNormal(hero));
             hero.SetPosition(new Point(-1, -1));
 
-            Hero enemy = new Hero();
-            enemy.SetUp(this, 2, CharacterType.Enemy);
-            enemy.SetBrush(Brushes.Red);
-            enemy.SetMoveType(new MoveNone(enemy));
-            enemy.SetPosition(new Point(-1, -1));
-
-            //
             hero.SetPosition(new Point(5, 1));
-            enemy.SetPosition(new Point(7, 5));
-
             characters.Add(hero);
-            characters.Add(enemy);
+
+            for (int i = 1000; i < 1003; i++)
+            {
+                Random random = new Random();
+                Point endPoint = new Point(random.Next(0, 9), random.Next(0, 9));
+                if (map.IsWalkable(endPoint.X, endPoint.Y) == true)
+                {
+                    Hero enemy = new Hero();
+                    enemy.SetUp(this, i, CharacterType.Enemy);
+                    enemy.SetBrush(Brushes.Red);
+                    enemy.SetMoveType(new MoveNone(enemy));
+                    enemy.SetPosition(endPoint);
+                    characters.Add(enemy);
+                }
+            }
         }
 
         public void Update()
         {
-            characters.ForEach(c =>
-            {
-                c.Update(0);
-
-                if (c.GetCharacterType() == CharacterType.Enemy && c.IsAlive() == false)
-                {
-                    Random random = new Random();
-                    Point endPoint = new Point(random.Next(0, 9), random.Next(0, 9));
-                    if (map.IsWalkable(endPoint.X, endPoint.Y) == true)
-                    {
-                        c.SetUp(this, c.Id + 1, CharacterType.Enemy);
-                        c.SetPosition(endPoint);
-                    }
-                }
-            });
+            characters.ForEach(c => c.Update(0));
         }
 
         internal Map GetMap()
@@ -70,9 +61,24 @@ namespace HeroBattle
             return this.map;
         }
 
-        public Character SearchTarget()
+        public Character SearchTarget(Character hero)
         {
-            return characters.Find(c => c.GetCharacterType() == CharacterType.Enemy);
+            Func<Point, Point, double> DistanceTo = (point1, point2) =>
+            {
+                var a = (double)(point2.X - point1.X);
+                var b = (double)(point2.Y - point1.Y);
+
+                return Math.Sqrt(a * a + b * b);
+            };
+
+            Point pivot = hero.GetPosition();
+
+            List<Character> sorted = characters
+                .OrderBy(x => DistanceTo(x.GetPosition(), pivot))
+                .ToList();
+
+            return sorted
+                .Find(c => c.GetCharacterType() == CharacterType.Enemy && c.IsAlive());
         }
 
         public void OnPaint(PaintEventArgs e)

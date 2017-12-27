@@ -72,8 +72,6 @@ namespace HeroBattle
                 return;
             }
 
-            Debug.Print("Attack()");
-
             Character target_ = room.FindCharacter(this.target);
 
             if (target_ == null)
@@ -84,7 +82,7 @@ namespace HeroBattle
             if (target_.IsAlive())
             {
                 target_.SetDamage(100); // damage > 0
-                Debug.Print("Attack() : enemy hp = {0}", target_.GetHp());
+                Debug.Print("Attack() : id = {0} enemy hp = {1}", target_.Id, target_.GetHp());
 
                 if (target_.IsAlive() == false)
                 {
@@ -115,7 +113,7 @@ namespace HeroBattle
             Character target_ = room.FindCharacter(this.target);
 
             if (target_ == null)
-                target_ = room.SearchTarget();
+                target_ = room.SearchTarget(this);
 
             if (target_ != null && target_.GetPosition() != new Point(-1, -1))
             {
