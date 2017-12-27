@@ -79,6 +79,14 @@ namespace HeroBattle
                 return;
             }
 
+            double dist = room.DistanceTo(GetPosition(), target_.GetPosition());
+            Debug.WriteLine("{0} -> {1} = {2}", GetPosition(), target_.GetPosition(), dist);
+            if (dist > 1.5)
+            {
+                state.SetState(State.Move);
+                return;
+            }
+
             if (target_.IsAlive())
             {
                 target_.SetDamage(100); // damage > 0

@@ -30,19 +30,17 @@ namespace HeroBattle
             hero.SetUp(this, 1, CharacterType.Player);
             hero.SetBrush(Brushes.Blue);
             hero.SetMoveType(new MoveNormal(hero));
-            hero.SetPosition(new Point(-1, -1));
-
             hero.SetPosition(new Point(5, 1));
             characters.Add(hero);
 
-            for (int i = 1000; i < 1003; i++)
+            for (int i = 0; i < 3; i++)
             {
                 Random random = new Random();
                 Point endPoint = new Point(random.Next(0, 9), random.Next(0, 9));
                 if (map.IsWalkable(endPoint.X, endPoint.Y) == true)
                 {
                     Hero enemy = new Hero();
-                    enemy.SetUp(this, i, CharacterType.Enemy);
+                    enemy.SetUp(this, 1000 + i, CharacterType.Enemy);
                     enemy.SetBrush(Brushes.Red);
                     enemy.SetMoveType(new MoveNone(enemy));
                     enemy.SetPosition(endPoint);
@@ -61,16 +59,16 @@ namespace HeroBattle
             return this.map;
         }
 
+        public double DistanceTo(Point point1, Point point2)
+        {
+            var a = (double)(point2.X - point1.X);
+            var b = (double)(point2.Y - point1.Y);
+
+            return Math.Sqrt(a * a + b * b);
+        }
+
         public Character SearchTarget(Character hero)
         {
-            Func<Point, Point, double> DistanceTo = (point1, point2) =>
-            {
-                var a = (double)(point2.X - point1.X);
-                var b = (double)(point2.Y - point1.Y);
-
-                return Math.Sqrt(a * a + b * b);
-            };
-
             Point pivot = hero.GetPosition();
 
             List<Character> sorted = characters
