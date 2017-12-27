@@ -17,16 +17,16 @@ namespace HeroBattle
         float height = 20, width = 20;
 
         private Brush brush = Brushes.White;
-        private Character target { get; set; }
+        private long target { get; set; }
 
         public Hero()
         {
-            this.target = null;
+            this.target = 0;
         }
 
-        public override void SetUp(Room room)
+        public override void SetUp(Room room, long id, CharacterType characterType)
         {
-            base.SetUp(room);
+            base.SetUp(room, id, characterType);
             this.maxHp = 1000;
             this.hp = this.maxHp;
         }
@@ -74,7 +74,7 @@ namespace HeroBattle
 
             Debug.Print("Attack()");
 
-            Character target_ = this.target;
+            Character target_ = room.FindCharacter(this.target);
 
             if (target_ == null)
             {
@@ -85,12 +85,18 @@ namespace HeroBattle
             {
                 target_.SetDamage(100); // damage > 0
                 Debug.Print("Attack() : enemy hp = {0}", target_.GetHp());
+
+                if (target_.IsAlive() == false)
+                {
+                    SetTarget(0);
+                    state.SetState(State.None);
+                }
             }
         }
 
-        public void SetTarget(Character target)
+        public void SetTarget(long targetId)
         {
-            this.target = target;
+            this.target = targetId;
         }
 
         public void OnPaint(PaintEventArgs e)
@@ -106,14 +112,14 @@ namespace HeroBattle
 
         private void FindTarget()
         {
-            Character target_ = this.target;
+            Character target_ = room.FindCharacter(this.target);
 
             if (target_ == null)
                 target_ = room.SearchTarget();
 
             if (target_ != null && target_.GetPosition() != new Point(-1, -1))
             {
-                SetTarget(target_);
+                SetTarget(target_.Id);
                 move.FindPath(target_);
 
                 state.SetState(State.Move);

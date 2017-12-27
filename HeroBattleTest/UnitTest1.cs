@@ -18,7 +18,7 @@ namespace HeroBattleTest
             Room room = new Room();
             room.Initialize();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 200; i++)
                 room.Update();
         }
     }

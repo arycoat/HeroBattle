@@ -9,20 +9,35 @@ namespace HeroBattle
 {
     public abstract class Character
     {
+        public enum CharacterType
+        {
+            Player,
+            Enemy,
+        }
+
         public CharacterState state { get; private set; }
         protected MoveBase move { get; set; }
         protected long hp, maxHp;
         protected Point position { get; set; }
-        protected Room room { get; set; } 
+        protected Room room { get; set; }
+        public long Id { get; private set; }
+        private CharacterType characterType { get; set; }
 
         public Character()
         {
             this.state = new CharacterState();
         }
 
-        public virtual void SetUp(Room room)
+        public virtual void SetUp(Room room, long id, CharacterType characterType)
         {
             this.room = room;
+            this.Id = id;
+            this.characterType = characterType;
+        }
+
+        public CharacterType GetCharacterType()
+        {
+            return this.characterType;
         }
 
         public abstract void Update(long delta);
