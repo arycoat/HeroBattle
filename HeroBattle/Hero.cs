@@ -14,9 +14,6 @@ namespace HeroBattle
 
     class Hero : Character
     {
-        float height = 20, width = 20;
-
-        private Brush brush = Brushes.White;
         private long target { get; set; }
 
         public Hero()
@@ -29,11 +26,6 @@ namespace HeroBattle
             base.SetUp(room, id, characterType);
             this.maxHp = 1000;
             this.hp = this.maxHp;
-        }
-
-        public void SetBrush(Brush brush)
-        {
-            this.brush = brush;
         }
 
         public void SetMoveType(MoveBase move)
@@ -103,12 +95,6 @@ namespace HeroBattle
         public void SetTarget(long targetId)
         {
             this.target = targetId;
-        }
-
-        public void OnPaint(PaintEventArgs e)
-        {
-            e.Graphics.FillEllipse(this.brush,
-                new Rectangle((int)position.X * 50 + 15, (int)position.Y * 50 + 15, (int)height, (int)width));
         }
 
         public bool IsEndMove()
