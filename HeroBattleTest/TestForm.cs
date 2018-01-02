@@ -70,11 +70,30 @@ namespace HeroBattleTest
             maxforce = 0.1f;
         }
 
+        /*
+         * https://msdn.microsoft.com/en-us/library/windows/desktop/bb509618(v=vs.85).aspx
+         */
+        private double lerp(double x, double y, double s)
+        {
+            return x * (1 - s) + y * s;
+        }
+
         internal void seek(Vector target)
         {
             Vector desired = target - position;
+            double d = desired.Length;
             desired.Normalize();
-            desired *= maxspeed;
+
+            double closeTo = 50;
+            if (d < closeTo)
+            {
+                double m = lerp(0, maxspeed, d / closeTo);
+                desired *= m;
+            }
+            else
+            {
+                desired *= maxspeed;
+            }
 
             Vector steer = desired - velocity;
             if (steer.LengthSquared > maxforce)
@@ -141,7 +160,7 @@ namespace HeroBattleTest
             mover.seek(attractor.position);
             mover.Update();
 
-            if (counter++ > 100)
+            if (counter++ > 200)
             {
                 attractor.position = new Vector(random.Next(500), random.Next(500));
                 counter = 0;
@@ -154,8 +173,9 @@ namespace HeroBattleTest
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            mover.OnPaint(e);
+
             attractor.OnPaint(e);
+            mover.OnPaint(e);
         }
     }
 }
