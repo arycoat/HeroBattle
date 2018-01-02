@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace HeroBattleTest
 {
@@ -56,6 +57,13 @@ namespace HeroBattleTest
                 .ToList();
 
             sortedList.ForEach(p => Debug.WriteLine(p));
+        }
+
+        [TestMethod]
+        public void TestPhysics()
+        {
+            TestForm form = new TestForm();
+            Application.Run(form);
         }
     }
 }
