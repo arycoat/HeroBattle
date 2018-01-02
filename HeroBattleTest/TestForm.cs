@@ -6,9 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace HeroBattleTest
 {
+    using Point = System.Drawing.Point;
+
     class Mover
     {
         public Vector position;
@@ -38,7 +42,9 @@ namespace HeroBattleTest
 
         public virtual void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.FillEllipse(brush, new Rectangle((int)position.X, (int)position.Y, (int)mass+2, (int)mass+2));
+            int width = (int)mass + 2;
+            int height = (int)mass + 2;
+            e.Graphics.FillEllipse(brush, new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height));
         }
 
         internal Vector attract(Mover mover)
@@ -81,18 +87,31 @@ namespace HeroBattleTest
 
         public override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.FillEllipse(brush, new Rectangle((int)position.X, (int)position.Y, (int)20, (int)20));
+            Point[] points = new Point[]
+            {
+                new Point(  0,  25),
+                new Point(-10, -25),
+                new Point( 10, -25)
+            };
+
+            e.Graphics.TranslateTransform((int)position.X, (int)position.Y);
+            e.Graphics.RotateTransform((float)Vector.AngleBetween(new Vector(0, 1), velocity));
+            e.Graphics.FillPolygon(brush, points);
+
+            //e.Graphics.FillEllipse(Brushes.Red, new Rectangle(-2, -2, (int)4, (int)4));
+
+            e.Graphics.ResetTransform(); //
         }
     }
 
     class TestForm : Form
     {
         Timer timer = new Timer();
+        int counter = 0;
+        Random random;
 
         private Vehicle mover;
         private Mover attractor;
-
-        private Vector gravity;
 
         public TestForm()
         {
@@ -104,7 +123,7 @@ namespace HeroBattleTest
             timer.Enabled = true;
             timer.Start();
 
-            gravity = new Vector(0, 0.5);
+            this.random = new Random();
 
             mover = new Vehicle();
             mover.position = new Vector(30.0, 30.0);
@@ -122,14 +141,19 @@ namespace HeroBattleTest
             mover.seek(attractor.position);
             mover.Update();
 
+            if (counter++ > 100)
+            {
+                attractor.position = new Vector(random.Next(500), random.Next(500));
+                counter = 0;
+            }
+
             //
             this.Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            //base.OnPaint(e);
-
+            base.OnPaint(e);
             mover.OnPaint(e);
             attractor.OnPaint(e);
         }
