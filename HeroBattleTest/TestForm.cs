@@ -62,12 +62,14 @@ namespace HeroBattleTest
     {
         private float maxspeed;
         private float maxforce;
+        public float range;
 
         public Vehicle()
             : base()
         {
             maxspeed = 4;
             maxforce = 0.1f;
+            range = 0;
         }
 
         /*
@@ -85,9 +87,9 @@ namespace HeroBattleTest
             desired.Normalize();
 
             double closeTo = 50;
-            if (d < closeTo)
+            if (d < closeTo + range)
             {
-                double m = lerp(0, maxspeed, d / closeTo);
+                double m = lerp(0, maxspeed, Math.Max(d - range, 0) / closeTo);
                 desired *= m;
             }
             else
@@ -129,7 +131,7 @@ namespace HeroBattleTest
         int counter = 0;
         Random random;
 
-        private Vehicle mover;
+        private List<Vehicle> movers;
         private Mover attractor;
 
         public TestForm()
@@ -143,11 +145,26 @@ namespace HeroBattleTest
             timer.Start();
 
             this.random = new Random();
+            this.movers = new List<Vehicle>();
 
-            mover = new Vehicle();
-            mover.position = new Vector(30.0, 30.0);
-            mover.mass = 1;
-            mover.brush = Brushes.Blue;
+            {
+                Vehicle mover = new Vehicle();
+                mover.position = new Vector(30.0, 30.0);
+                mover.mass = 1;
+                mover.range = 30;
+                mover.brush = Brushes.Blue;
+                movers.Add(mover);
+            }
+
+            {
+                Vehicle mover = new Vehicle();
+                mover.position = new Vector(random.Next(0, 500), random.Next(0, 500));
+                mover.mass = 1;
+                mover.range = 100;
+                mover.brush = Brushes.Green;
+                movers.Add(mover);
+            }
+            
 
             attractor = new Mover();
             attractor.position = new Vector(250, 250);
@@ -157,8 +174,11 @@ namespace HeroBattleTest
 
         private void Update(object sender, EventArgs e)
         {
-            mover.seek(attractor.position);
-            mover.Update();
+            foreach(Vehicle mover in movers)
+            {
+                mover.seek(attractor.position);
+                mover.Update();
+            }
 
             if (counter++ > 200)
             {
@@ -175,7 +195,10 @@ namespace HeroBattleTest
             base.OnPaint(e);
 
             attractor.OnPaint(e);
-            mover.OnPaint(e);
+            foreach(Vehicle mover in movers)
+            {
+                mover.OnPaint(e);
+            }
         }
     }
 }
