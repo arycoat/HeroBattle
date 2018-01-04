@@ -50,23 +50,5 @@ namespace HeroBattle
         {
             map[x][y] = 1; // blocked
         }
-
-        public void OnPaint(PaintEventArgs e)
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    e.Graphics.DrawRectangle(Pens.Black,
-                        new Rectangle(new Point(i * 50, j * 50), new Size(50, 50)));
-
-                    if (IsWalkable(i, j) == false)
-                    {
-                        e.Graphics.FillRectangle(Brushes.Blue,
-                            new Rectangle(new Point(i * 50, j * 50), new Size(50, 50)));
-                    }
-                }
-            }
-        }
     }
 }

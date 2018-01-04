@@ -15,11 +15,12 @@ namespace HeroBattle
         private float maxspeed;
         private float maxforce;
         public float range;
+        public long id;
 
         public Vehicle()
             : base()
         {
-            maxspeed = 4;
+            maxspeed = 3;
             maxforce = 0.1f;
             range = 0;
         }
@@ -36,6 +37,9 @@ namespace HeroBattle
         {
             Vector desired = target - position;
             double d = desired.Length;
+            if (d < 0.1)
+                return;
+
             desired.Normalize();
 
             double closeTo = 50;
@@ -74,6 +78,10 @@ namespace HeroBattle
             //e.Graphics.FillEllipse(Brushes.Red, new Rectangle(-2, -2, (int)4, (int)4));
 
             e.Graphics.ResetTransform(); //
+
+            //!~ debug paint
+            base.OnPaint(e);
+            //~!
         }
     }
 }

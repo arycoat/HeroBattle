@@ -13,7 +13,7 @@ namespace HeroBattle
     public class Room
     {
         private Map map;
-        private List<Character> characters;
+        public List<Character> characters;
 
         public Room()
         {
@@ -97,8 +97,6 @@ namespace HeroBattle
 
         public void OnPaint(PaintEventArgs e)
         {
-            map.OnPaint(e);
-            
             characters.ForEach(c =>
             {
                 if (c.GetCharacterType() == CharacterType.Player)

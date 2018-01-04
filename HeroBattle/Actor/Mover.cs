@@ -40,7 +40,7 @@ namespace HeroBattle
         {
             int width = (int)mass + 2;
             int height = (int)mass + 2;
-            e.Graphics.FillEllipse(brush, new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height));
+            e.Graphics.FillEllipse(Brushes.Black, new Rectangle((int)position.X - width / 2, (int)position.Y - height / 2, width, height));
         }
 
         internal Vector attract(Mover mover)

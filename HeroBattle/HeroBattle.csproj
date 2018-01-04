@@ -45,6 +45,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actor\Board.cs" />
     <Compile Include="Actor\Mover.cs" />
     <Compile Include="Actor\Vehicle.cs" />
     <Compile Include="Character\AttackBase.cs" />
