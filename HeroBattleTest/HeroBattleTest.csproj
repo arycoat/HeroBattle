@@ -59,6 +59,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HeroBattleClient\HeroBattleClient.csproj">
+      <Project>{6fecf7ef-140b-4f19-8d28-74f94c23064b}</Project>
+      <Name>HeroBattleClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HeroBattle\HeroBattle.csproj">
       <Project>{4300053f-42f0-4020-930b-d7f9e7955ab1}</Project>
       <Name>HeroBattle</Name>

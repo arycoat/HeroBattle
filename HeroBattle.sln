@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroBattle", "HeroBattle\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroBattleTest", "HeroBattleTest\HeroBattleTest.csproj", "{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeroBattleClient", "HeroBattleClient\HeroBattleClient.csproj", "{6FECF7EF-140B-4F19-8D28-74F94C23064B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94BD08A3-4BF8-4B0A-83C8-9EDE8E79C09B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FECF7EF-140B-4F19-8D28-74F94C23064B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FECF7EF-140B-4F19-8D28-74F94C23064B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FECF7EF-140B-4F19-8D28-74F94C23064B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FECF7EF-140B-4F19-8D28-74F94C23064B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

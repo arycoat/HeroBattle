@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace HeroBattle
+namespace HeroBattleClient
 {
     public class Mover
     {

@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HeroBattle
+using HeroBattle;
+
+namespace HeroBattleClient
 {
     public class Board
     {

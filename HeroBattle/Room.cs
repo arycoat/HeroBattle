@@ -70,7 +70,7 @@ namespace HeroBattle
             characters.ForEach(c => c.Update(0));
         }
 
-        internal Map GetMap()
+        public Map GetMap()
         {
             return this.map;
         }
@@ -118,7 +118,7 @@ namespace HeroBattle
             });
         }
 
-        internal Character FindCharacter(long targetId)
+        public Character FindCharacter(long targetId)
         {
             return characters.Find(c => c.Id == targetId);
         }

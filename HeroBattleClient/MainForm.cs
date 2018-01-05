@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 
-using HeroBattle.PathFind;
+using HeroBattle;
+using System.Drawing;
 using System.Windows;
 
-namespace HeroBattle
+namespace HeroBattleClient
 {
     class Form1 : Form
     {
@@ -45,7 +44,7 @@ namespace HeroBattle
 
             board = new Board(room.GetMap());
             movers = new List<Vehicle>();
-            foreach(Character parent in room.characters)
+            foreach (Character parent in room.characters)
             {
                 Vehicle mover = new Vehicle();
                 mover.id = parent.Id;
