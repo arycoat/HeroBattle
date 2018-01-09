@@ -8,7 +8,7 @@ using static HeroBattle.CharacterState;
 
 namespace HeroBattle
 {
-    public abstract class Character
+    public class Character
     {
         public enum CharacterType
         {
@@ -16,9 +16,8 @@ namespace HeroBattle
             Enemy,
         }
 
-        protected MoveBase move { get; set; }
-        protected AttackBase attack { get; set; }
-        private NoneBase none;
+        private MoveBase move { get; set; }
+        private AttackBase attack { get; set; }
         private CharacterState state;
 
         protected long hp, maxHp;
@@ -31,8 +30,7 @@ namespace HeroBattle
         public Character()
         {
             this.target = -1;
-            this.none = new NoneBase();
-            this.state = none;
+            this.state = NoneBase.GetEmpty;
         }
 
         public virtual void SetUp(Room room, long id, CharacterType characterType)
@@ -45,6 +43,11 @@ namespace HeroBattle
         public void SetMoveType(MoveBase move)
         {
             this.move = move;
+        }
+
+        internal MoveBase.MoveType GetMoveType()
+        {
+            return move.moveType;
         }
 
         public void SetAttackType(AttackBase attack)
@@ -66,7 +69,7 @@ namespace HeroBattle
 
         public void SetNoneState()
         {
-            state = none;
+            state = NoneBase.GetEmpty;
         }
 
         public CharacterType GetCharacterType()
@@ -81,11 +84,7 @@ namespace HeroBattle
 
         public virtual void Update(long delta)
         {
-            if (state.GetState() == State.Move ||
-                state.GetState() == State.Attack)
-            {
-                state.Update();
-            }
+            state.Update();
         }
 
         public long GetHp()
@@ -126,6 +125,11 @@ namespace HeroBattle
         internal void SetTarget(long target)
         {
             this.target = target;
+        }
+
+        internal void FindPath(Character target)
+        {
+            move.FindPath(target);
         }
     }
 }

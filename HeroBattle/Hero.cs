@@ -29,8 +29,7 @@ namespace HeroBattle
 
         public override void Update(long delta)
         {
-            State state = base.GetState();
-            if (state == State.None && move.moveType != MoveType.None)
+            if (GetState() == State.None && GetMoveType() != MoveType.None)
             {
                 FindTarget();
             }
@@ -48,9 +47,8 @@ namespace HeroBattle
             if (target_ != null && target_.GetPosition() != new Point(-1, -1))
             {
                 SetTarget(target_.Id);
-                move.FindPath(target_);
-
-                base.SetMoveState();
+                FindPath(target_);
+                SetMoveState();
             }
         }
     }

@@ -8,6 +8,8 @@ namespace HeroBattle
 {
     public class NoneBase : CharacterState
     {
+        public static NoneBase GetEmpty = new NoneBase();
+
         public NoneBase()
             : base(State.None)
         {
