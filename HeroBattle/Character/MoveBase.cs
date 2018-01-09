@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroBattle
 {
-    public class MoveBase
+    public class MoveBase : CharacterState
     {
         public enum MoveType
         {
@@ -17,11 +17,12 @@ namespace HeroBattle
         public MoveType moveType { get; private set; }
 
         public MoveBase(MoveType moveType)
+            : base(State.Move)
         {
             this.moveType = moveType;
         }
 
-        public virtual void Update()
+        public override void Update()
         {
 
         }

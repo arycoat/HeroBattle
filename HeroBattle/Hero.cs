@@ -29,20 +29,13 @@ namespace HeroBattle
 
         public override void Update(long delta)
         {
-            if (state.GetState() == State.None && move.moveType != MoveType.None)
+            State state = base.GetState();
+            if (state == State.None && move.moveType != MoveType.None)
             {
                 FindTarget();
             }
 
-            if (state.GetState() == State.Move)
-            {
-                move.Update();
-            }
-
-            if (state.GetState() == State.Attack)
-            {
-                attack.Update();
-            }
+            base.Update(delta);
         }
 
         private void FindTarget()
@@ -57,8 +50,7 @@ namespace HeroBattle
                 SetTarget(target_.Id);
                 move.FindPath(target_);
 
-                state.SetState(State.Move);
-                state.SetTimeStamp(1000);
+                base.SetMoveState();
             }
         }
     }

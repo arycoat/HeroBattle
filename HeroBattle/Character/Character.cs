@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HeroBattle.CharacterState;
 
 namespace HeroBattle
 {
@@ -15,9 +16,11 @@ namespace HeroBattle
             Enemy,
         }
 
-        public CharacterState state { get; private set; }
         protected MoveBase move { get; set; }
         protected AttackBase attack { get; set; }
+        private NoneBase none;
+        private CharacterState state;
+
         protected long hp, maxHp;
         protected Point position { get; set; }
         public Room room { get; private set; }
@@ -27,8 +30,9 @@ namespace HeroBattle
 
         public Character()
         {
-            this.state = new CharacterState();
             this.target = -1;
+            this.none = new NoneBase();
+            this.state = none;
         }
 
         public virtual void SetUp(Room room, long id, CharacterType characterType)
@@ -48,12 +52,41 @@ namespace HeroBattle
             this.attack = attack;
         }
 
+        public void SetMoveState()
+        {
+            move.SetTimeStamp(1000);
+            state = move;
+        }
+
+        public void SetAttackState()
+        {
+            attack.SetTimeStamp(1000);
+            state = attack;
+        }
+
+        public void SetNoneState()
+        {
+            state = none;
+        }
+
         public CharacterType GetCharacterType()
         {
             return this.characterType;
         }
 
-        public abstract void Update(long delta);
+        public State GetState()
+        {
+            return state.GetState();
+        }
+
+        public virtual void Update(long delta)
+        {
+            if (state.GetState() == State.Move ||
+                state.GetState() == State.Attack)
+            {
+                state.Update();
+            }
+        }
 
         public long GetHp()
         {

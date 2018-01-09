@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroBattle
 {
-    public class CharacterState
+    public abstract class CharacterState
     {
         public enum State
         {
@@ -16,22 +16,17 @@ namespace HeroBattle
         }
 
         private long timestamp;
-        private State state;
+        protected State state { private set; get; }
 
-        public CharacterState()
+        public CharacterState(State state)
         {
             this.timestamp = 0;
-            this.state = State.None;
+            this.state = state;
         }
 
         internal State GetState()
         {
             return this.state;
-        }
-
-        internal void SetState(State state)
-        {
-            this.state = state;
         }
 
         internal long GetTimeStamp()
@@ -43,5 +38,7 @@ namespace HeroBattle
         {
             this.timestamp = timestamp;
         }
+
+        public abstract void Update();
     }
 }

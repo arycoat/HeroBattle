@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeroBattle
 {
-    public class AttackBase
+    public class AttackBase : CharacterState
     {
         public enum AttackType
         {
@@ -17,11 +17,12 @@ namespace HeroBattle
         private readonly AttackType attackType;
 
         public AttackBase(AttackType attackType)
+            : base(State.Attack)
         {
             this.attackType = attackType;
         }
 
-        public virtual void Update()
+        public override void Update()
         {
 
         }

@@ -27,9 +27,9 @@ namespace HeroBattle
 
         public override void Update()
         {
-            hero.state.SetTimeStamp(hero.state.GetTimeStamp() - 150);
+            base.SetTimeStamp(base.GetTimeStamp() - 150);
 
-            if (hero.state.GetTimeStamp() > 0)
+            if (base.GetTimeStamp() > 0)
             {
                 // 아직 움직일 시간이 되지 않았음.
                 return;
@@ -37,7 +37,7 @@ namespace HeroBattle
 
             //Debug.Print("Move()");
 
-            hero.state.SetTimeStamp(hero.state.GetTimeStamp() + 1000);
+            base.SetTimeStamp(base.GetTimeStamp() + 1000);
 
             if (path.Count > 0)
             {
@@ -48,15 +48,14 @@ namespace HeroBattle
 
             if (path.Count == 0)
             {
-                hero.state.SetTimeStamp(hero.state.GetTimeStamp() + 1000);
-                hero.state.SetState(State.Attack);
+                hero.SetAttackState();
                 endPos = new Point(-1, -1);
             }
         }
 
         public override bool IsEnd()
         {
-            return (hero.state.GetState() == State.None && endPos.Equals(new Point(-1, -1)));
+            return (base.GetState() == State.None && endPos.Equals(new Point(-1, -1)));
         }
 
         public override void FindPath(Character target_)

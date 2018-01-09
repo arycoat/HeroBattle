@@ -55,6 +55,7 @@
     <Compile Include="Character\MoveBase.cs" />
     <Compile Include="Character\MoveNone.cs" />
     <Compile Include="Character\MoveNormal.cs" />
+    <Compile Include="Character\NoneBase.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="Character\CharacterState.cs" />
     <Compile Include="Map.cs" />

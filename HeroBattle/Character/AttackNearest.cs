@@ -22,9 +22,9 @@ namespace HeroBattle
         {
             base.Update();
 
-            hero.state.SetTimeStamp(hero.state.GetTimeStamp() - 150);
+            base.SetTimeStamp(base.GetTimeStamp() - 150);
 
-            if (hero.state.GetTimeStamp() > 0)
+            if (base.GetTimeStamp() > 0)
             {
                 // 아직 움직일 시간이 되지 않았음.
                 return;
@@ -41,7 +41,7 @@ namespace HeroBattle
             Debug.WriteLine("{0} -> {1} = {2}", hero.GetPosition(), target_.GetPosition(), dist);
             if (dist > 1.5)
             {
-                hero.state.SetState(State.Move);
+                hero.SetMoveState();
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace HeroBattle
                 if (target_.IsAlive() == false)
                 {
                     hero.SetTarget(0);
-                    hero.state.SetState(State.None);
+                    hero.SetNoneState();
                 }
             }
         }
