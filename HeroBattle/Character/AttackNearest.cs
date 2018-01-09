@@ -30,14 +30,14 @@ namespace HeroBattle
                 return;
             }
 
-            Character target_ = hero.room.FindCharacter(hero.GetTarget());
+            Character target_ = hero.FindCharacter();
 
             if (target_ == null)
             {
                 return;
             }
 
-            double dist = hero.room.DistanceTo(hero.GetPosition(), target_.GetPosition());
+            double dist = hero.DistanceTo(target_.GetPosition());
             Debug.WriteLine("{0} -> {1} = {2}", hero.GetPosition(), target_.GetPosition(), dist);
             if (dist > 1.5)
             {
@@ -48,7 +48,7 @@ namespace HeroBattle
             if (target_.IsAlive())
             {
                 target_.SetDamage(100); // damage > 0
-                Debug.Print("Attack() : id = {0} enemy hp = {1}", target_.Id, target_.GetHp());
+                Debug.Print("Attack() : id = {0} enemy hp = {1}", target_.GetID(), target_.GetHp());
 
                 if (target_.IsAlive() == false)
                 {

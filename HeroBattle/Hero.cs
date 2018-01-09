@@ -39,14 +39,14 @@ namespace HeroBattle
 
         private void FindTarget()
         {
-            Character target_ = room.FindCharacter(GetTarget());
+            Character target_ = FindCharacter();
 
             if (target_ == null)
-                target_ = room.SearchTarget(this);
+                target_ = SearchTarget();
 
             if (target_ != null && target_.GetPosition() != new Point(-1, -1))
             {
-                SetTarget(target_.Id);
+                SetTarget(target_.GetID());
                 FindPath(target_);
                 SetMoveState();
             }

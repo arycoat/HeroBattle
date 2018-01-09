@@ -47,7 +47,7 @@ namespace HeroBattleClient
             foreach (Character parent in room.characters)
             {
                 Vehicle mover = new Vehicle();
-                mover.id = parent.Id;
+                mover.id = parent.GetID();
                 mover.position = new Vector(parent.GetPosition().X * 50 + 25, parent.GetPosition().Y * 50 + 25);
                 mover.mass = 1;
                 mover.range = 0;

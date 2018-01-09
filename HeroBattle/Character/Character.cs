@@ -4,10 +4,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static HeroBattle.CharacterState;
 
 namespace HeroBattle
 {
+    using State = CharacterState.State;
+    using MoveType = HeroBattle.MoveBase.MoveType;
+
     public class Character
     {
         public enum CharacterType
@@ -21,9 +23,9 @@ namespace HeroBattle
         private CharacterState state;
 
         protected long hp, maxHp;
-        protected Point position { get; set; }
-        public Room room { get; private set; }
-        public long Id { get; private set; }
+        private Point position;
+        private Room room;
+        private long Id;
         private CharacterType characterType { get; set; }
         private long target { get; set; }
 
@@ -92,6 +94,11 @@ namespace HeroBattle
             return this.hp;
         }
 
+        public long GetID()
+        {
+            return this.Id;
+        }
+
         public Point GetPosition()
         {
             return this.position;
@@ -130,6 +137,21 @@ namespace HeroBattle
         internal void FindPath(Character target)
         {
             move.FindPath(target);
+        }
+
+        public Character FindCharacter()
+        {
+            return room.FindCharacter(target);
+        }
+
+        public Character SearchTarget()
+        {
+            return room.SearchTarget(this);
+        }
+
+        internal double DistanceTo(Point point)
+        {
+            return room.DistanceTo(GetPosition(), point);
         }
     }
 }

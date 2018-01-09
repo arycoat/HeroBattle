@@ -111,7 +111,7 @@ namespace HeroBattle
 
                     Font myFont = new System.Drawing.Font("Helvetica", 11, FontStyle.Italic);
                     Brush myBrush = new SolidBrush(System.Drawing.Color.Red);
-                    e.Graphics.DrawString(c.Id.ToString(), myFont, myBrush, pos.X * 50 + 5, pos.Y * 50 + 5);
+                    e.Graphics.DrawString(c.GetID().ToString(), myFont, myBrush, pos.X * 50 + 5, pos.Y * 50 + 5);
                     e.Graphics.DrawString(c.GetHp().ToString(), myFont, myBrush, pos.X * 50 + 5, pos.Y * 50 + 30);
                 }
                 
@@ -120,7 +120,7 @@ namespace HeroBattle
 
         public Character FindCharacter(long targetId)
         {
-            return characters.Find(c => c.Id == targetId);
+            return characters.Find(c => c.GetID() == targetId);
         }
     }
 }
